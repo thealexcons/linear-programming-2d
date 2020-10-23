@@ -3,7 +3,6 @@ constraint_relations = ("<", "<=", "=", ">", ">=")
 latex_symbols = ("\l", "\leq", "\eq", "\g", "\geq")
 
 class Constraint:
-
     '''
         Format passed in: x_coeffcient * x + y_coefficient * y sign constant
             eg: Constraint(3, 4, 5, sign='<')   ->  3*x + 4*y < 5
@@ -34,6 +33,26 @@ class Constraint:
     # Returns the constraint as a linear function given the x_var values
     def as_line(self, x_var):
         return (-self.x_coefficient * x_var + self.constant) / float(self.y_coefficient)
+
+    # Returns (x, y) tuple coordinates of intersection, empty tuple if no intersection
+    def intersection_with(self, other):
+        assert(isinstance(other, Constraint))
+        # Subtract the two equations: find the x coefficient and constant
+        x_coeff = -(self.x_coefficient / float(self.y_coefficient)) + (other.x_coefficient / float(other.y_coefficient))
+        const = (self.constant / float(self.y_coefficient)) - (other.constant / float (other.y_coefficient))
+
+        # No solution
+        if x_coeff == 0:
+            return ()
+
+        x_val = - const / x_coeff
+        y_val = self.as_line(x_val)
+
+        # Discard if we get a point in any other quadrant
+        if x_val < 0 or y_val < 0:
+            return ()
+
+        return (x_val, self.as_line(x_val))
 
     # Latex string representation of the constraint
     def to_latex_string(self):
