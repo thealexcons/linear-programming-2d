@@ -4,7 +4,7 @@ A simple Python program to solve 2D Linear Programming optimisation problems and
 plot the constraints and feasible region to aid learning.
 
 The program takes in a set of constraints and the objective function.
-Note that the constraints must be inclusive relations (ie: '=<', '>=' or '==') because
+Note that the constraints must be inclusive relations (ie: '<=', '>=' or '==') because
 strict inequalities do not make sense in a continuous setting. If you want integer solutions only, then just
 convert your strict inequality into an inclusive one yourself, eg: change '5x - 2y < 3' to '5x - 2y <= 2'.
 
@@ -27,3 +27,6 @@ constraints = [
 
 optimise(ObjectiveFunction(3, 2), constraints, type="max", visual=True, integer_only=True)
 ```
+- The ``type`` argument can take either ``"max"`` or ``"min"`` depending on your objective.
+- The ``visual`` argument can be set to ``True`` if you want a visual plot of the feasible region and constraints
+- The ``integer_only`` argument can be set to ``True`` if you want an integer only solution
