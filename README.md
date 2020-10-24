@@ -24,8 +24,8 @@ constraints = [
     Constraint2D(-2, 1, -5, sign="<="), # -2x + y >= -5
     Constraint2D(1, 0, 5, sign=">=")    # x >= 5
 ]
-
-optimise(ObjectiveFunction(3, 2), constraints, type="max", visual=True, integer_only=True)
+objective_function = ObjectiveFunction(3, 2) # represents P(x, y) = 3x + 2y
+optimise(objective_function, constraints, type="max", visual=True, integer_only=True)
 ```
 - The ``type`` argument can take either ``"max"`` or ``"min"`` depending on your objective.
 - The ``visual`` argument can be set to ``True`` if you want a visual plot of the feasible region and constraints
