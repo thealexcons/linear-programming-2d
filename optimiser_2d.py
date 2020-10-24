@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from objective_function import ObjectiveFunction
-from constraint import Constraint
+from constraint import Constraint2D
 from math import ceil, floor
 
 # Solves a 2D linear programming problem
@@ -28,10 +28,11 @@ def optimise(objective_function, constraints, type="min", visual=False, integer_
     if integer_only:
         if not (isinstance(optimal_coord[0], int) and isinstance(optimal_coord[1], int)): 
             optimal_coord, optimal_val = get_optimal_integer_solution(optimal_coord, type, objective_function, constraints)
-            print("Results have been restricted to integer values:")  
-    
+
+    print("---------- RESULTS ----------")    
     print("\tOptimal value: " + str(objective_function) + " = " + str(optimal_val))
     print("\tOptimal coordinate: (x = {0}, y = {1})".format(optimal_coord[0], optimal_coord[1]))
+    print("-----------------------------")   
 
     if visual:
         visualise(constraints, optimal_coord)
@@ -112,11 +113,13 @@ def visualise(constraints, optimal_coord):
 
     # Plot the lines defining the constraints
     x = np.linspace(0, x.max(), 2000)
-    ys = [(c.as_line(x), c.to_latex_string()) for c in constraints]
 
-    # Plot each line (maybe keep the label as well in ys variable)
-    for y in ys:
-        plt.plot(x, y[0], label=y[1])
+    for c in constraints:
+        line = c.as_line(x)
+        if line is None:
+            plt.axvline(x=c.constant, label=c.to_latex_string())
+        else:
+            plt.plot(x, line, label=c.to_latex_string())
 
     # Plot the optimal intersection 
     plt.plot(optimal_coord[0], optimal_coord[1], 'ro')
@@ -127,4 +130,6 @@ def visualise(constraints, optimal_coord):
     plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
     plt.xlabel(r'$x$')
     plt.ylabel(r'$y$')
+
+    plt.grid()
     plt.show()
