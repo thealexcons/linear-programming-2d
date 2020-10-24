@@ -8,7 +8,7 @@ class Constraint:
             eg: Constraint(3, 4, 5, sign='<')   ->  3*x + 4*y < 5
             eg: Constraint(-3, 5, 0, sign='>=')   ->  -3*x + 5*y >= 0
     '''
-    def __init__(self, x_coefficient, y_coefficient, constant, sign="<"):
+    def __init__(self, x_coefficient, y_coefficient, constant, sign):
         self.x_coefficient = x_coefficient
         self.y_coefficient = y_coefficient
         self.constant = constant
